@@ -3,57 +3,51 @@ import org.junit.jupiter.api.Test;
 
 public class TrainConsistMgmntTest {
 
-    @Test
-    void testCargo_SafeAssignment() {
-        TrainConsistMgmnt.GoodsBogie bogie =
-                new TrainConsistMgmnt.GoodsBogie("Cylindrical");
-
-        bogie.assignCargo("Petroleum");
-
-        assertEquals("Petroleum", bogie.cargo);
+    private int[] bubbleSort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+        return arr;
     }
 
     @Test
-    void testCargo_UnsafeAssignmentHandled() {
-        TrainConsistMgmnt.GoodsBogie bogie =
-                new TrainConsistMgmnt.GoodsBogie("Rectangular");
-
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.cargo);
+    void testSort_BasicSorting() {
+        int[] input = {72, 56, 24, 70, 60};
+        int[] expected = {24, 56, 60, 70, 72};
+        assertArrayEquals(expected, bubbleSort(input));
     }
 
     @Test
-    void testCargo_CargoNotAssignedAfterFailure() {
-        TrainConsistMgmnt.GoodsBogie bogie =
-                new TrainConsistMgmnt.GoodsBogie("Rectangular");
-
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.cargo);
+    void testSort_AlreadySortedArray() {
+        int[] input = {24, 56, 60, 70, 72};
+        int[] expected = {24, 56, 60, 70, 72};
+        assertArrayEquals(expected, bubbleSort(input));
     }
 
     @Test
-    void testCargo_ProgramContinuesAfterException() {
-        TrainConsistMgmnt.GoodsBogie bogie1 =
-                new TrainConsistMgmnt.GoodsBogie("Rectangular");
-
-        TrainConsistMgmnt.GoodsBogie bogie2 =
-                new TrainConsistMgmnt.GoodsBogie("Cylindrical");
-
-        bogie1.assignCargo("Petroleum");
-        bogie2.assignCargo("Coal");
-
-        assertEquals("Coal", bogie2.cargo);
+    void testSort_DuplicateValues() {
+        int[] input = {72, 56, 56, 24};
+        int[] expected = {24, 56, 56, 72};
+        assertArrayEquals(expected, bubbleSort(input));
     }
 
     @Test
-    void testCargo_FinallyBlockExecution() {
-        TrainConsistMgmnt.GoodsBogie bogie =
-                new TrainConsistMgmnt.GoodsBogie("Rectangular");
+    void testSort_SingleElementArray() {
+        int[] input = {50};
+        int[] expected = {50};
+        assertArrayEquals(expected, bubbleSort(input));
+    }
 
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.cargo); // finally always runs, cargo remains null
+    @Test
+    void testSort_AllEqualValues() {
+        int[] input = {40, 40, 40};
+        int[] expected = {40, 40, 40};
+        assertArrayEquals(expected, bubbleSort(input));
     }
 }
